@@ -19,7 +19,7 @@
 from OCC.Core.BRepCheck import BRepCheck_Analyzer, BRepCheck_NoError
 from OCC.Core.BRepClass3d import BRepClass3d_SolidClassifier
 from OCC.Core.TopAbs import TopAbs_IN, TopAbs_ON, TopAbs_OUT, TopAbs_UNKNOWN
-
+from OCC.Core.BRepCheck import BRepCheck_ListIteratorOfListOfStatus
 from afem.config import logger
 from afem.geometry.check import CheckGeom
 from afem.topology.entities import Face
@@ -34,14 +34,19 @@ def _invalid_subshapes(shape, check, errors):
     invalid = []
     for sub_shape in shape.shape_iter:
         result = check.Result(sub_shape.object)
-        list_of_status = result.Status()
-        for status in list_of_status:
+        list_of_status_iterator = result.Status()
+
+        status_iterator = BRepCheck_ListIteratorOfListOfStatus(list_of_status_iterator)
+
+        while status_iterator.More():
+            status = status_iterator.Value()
             if status != BRepCheck_NoError:
                 type_ = sub_shape.__class__.__name__
                 error = str(status).split('.')[-1]
                 msg = '\t{0}: {1}'.format(type_, error)
                 errors.append(msg)
                 invalid.append(sub_shape)
+            status_iterator.Next()
         invalid += _invalid_subshapes(sub_shape, check, errors)
 
     return invalid

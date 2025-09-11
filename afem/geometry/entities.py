@@ -2692,7 +2692,7 @@ class Surface(Geometry):
         p = Point.to_point(p)
         proj = GeomAPI_ProjectPointOnSurf(p, self.object)
         if proj.NbPoints() > 0:
-            return proj.LowerDistanceParameters(0., 0.)
+            return proj.LowerDistanceParameters()
         raise RuntimeError('Failed to invert point.')
 
     @staticmethod

@@ -24,7 +24,7 @@ from OCC.Core.BRepAlgoAPI import (BRepAlgoAPI_Common, BRepAlgoAPI_Cut,
                               BRepAlgoAPI_Splitter)
 from OCC.Core.BRepFeat import BRepFeat_MakeCylindricalHole, BRepFeat_SplitShape
 from OCC.Core.Message import Message_Gravity
-from OCC.Core.TopTools import TopTools_SequenceOfShape
+from OCC.Core.TopTools import TopTools_SequenceOfShape, TopTools_ListIteratorOfListOfShape
 from OCC.Core.TopoDS import TopoDS_Face
 
 from afem.config import logger
@@ -96,7 +96,14 @@ class BopCore(object):
         :return: List of modified shapes.
         :rtype: list(afem.topology.entities.Shape)
         """
-        return Shape.from_topods_list(self._bop.Modified(shape.object))
+        list_of_shape_iterator = TopTools_ListIteratorOfListOfShape(self._bop.Modified(shape.object))
+        list_shapes = []
+        while list_of_shape_iterator.More():
+            a_shape = list_of_shape_iterator.Value()
+            list_shapes.append(a_shape)
+            list_of_shape_iterator.Next()
+
+        return Shape.from_topods_list(list_shapes)
 
     def generated(self, shape):
         """
@@ -107,7 +114,14 @@ class BopCore(object):
         :return: List of generated shapes.
         :rtype: list(afem.topology.entities.Shape)
         """
-        return Shape.from_topods_list(self._bop.Generated(shape.object))
+        list_of_shape_iterator = TopTools_ListIteratorOfListOfShape(self._bop.Generated(shape.object))
+        list_shapes = []
+        while list_of_shape_iterator.More():
+            a_shape = list_of_shape_iterator.Value()
+            list_shapes.append(a_shape)
+            list_of_shape_iterator.Next()
+
+        return Shape.from_topods_list(list_shapes)
 
     def is_deleted(self, shape):
         """

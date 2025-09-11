@@ -320,7 +320,7 @@ class WiresByConnectedEdges(object):
         if tol is None:
             tol = max([e.tol_max for e in edges])
 
-        hwires = ShapeAnalysis_FreeBounds.ConnectEdgesToWires_(hedges, tol,
+        hwires = ShapeAnalysis_FreeBounds.ConnectEdgesToWires(hedges, tol,
                                                                shared)
 
         wires = []
@@ -1414,7 +1414,7 @@ class PlaneByIntersectingShapes(object):
             for edge in edges:
                 BRepMesh_IncrementalMesh(edge.object, 0.001)
                 loc = TopLoc_Location()
-                poly3d = BRep_Tool.Polygon3D_(edge.object, loc)
+                poly3d = BRep_Tool.Polygon3D(edge.object, loc)
                 if poly3d.NbNodes == 0:
                     continue
                 tcol_pnts = poly3d.Nodes()

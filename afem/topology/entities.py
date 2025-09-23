@@ -299,7 +299,7 @@ class Shape(ViewableItem):
         """
         map_ = TopTools_IndexedMapOfShape()
         topexp.MapShapes(self.object, Shape.VERTEX, map_)
-        return map_.Extent()
+        return map_.Size()
 
     @property
     def num_edges(self):
@@ -309,7 +309,7 @@ class Shape(ViewableItem):
         """
         map_ = TopTools_IndexedMapOfShape()
         topexp.MapShapes(self.object, Shape.EDGE, map_)
-        return map_.Extent()
+        return map_.Size()
 
     @property
     def num_faces(self):
@@ -319,7 +319,7 @@ class Shape(ViewableItem):
         """
         map_ = TopTools_IndexedMapOfShape()
         topexp.MapShapes(self.object, Shape.FACE, map_)
-        return map_.Extent()
+        return map_.Size()
 
     @property
     def tol_avg(self):
@@ -513,12 +513,12 @@ class Shape(ViewableItem):
         """
         this_map = TopTools_IndexedMapOfShape()
         topexp.MapShapes(self.object, Shape.VERTEX, this_map)
-        if this_map.Extent() == 0:
+        if this_map.Size() == 0:
             return []
 
         other_map = TopTools_IndexedMapOfShape()
         topexp.MapShapes(other.object, Shape.VERTEX, other_map)
-        if other_map.Extent() == 0:
+        if other_map.Size() == 0:
             return []
 
         verts = []
@@ -545,12 +545,12 @@ class Shape(ViewableItem):
         """
         this_map = TopTools_IndexedMapOfShape()
         topexp.MapShapes(self.object, Shape.EDGE, this_map)
-        if this_map.Extent() == 0:
+        if this_map.Size() == 0:
             return []
 
         other_map = TopTools_IndexedMapOfShape()
         topexp.MapShapes(other.object, Shape.EDGE, other_map)
-        if other_map.Extent() == 0:
+        if other_map.Size() == 0:
             return []
 
         edges = []
@@ -577,12 +577,12 @@ class Shape(ViewableItem):
         """
         this_map = TopTools_IndexedMapOfShape()
         topexp.MapShapes(self.object, Shape.FACE, this_map)
-        if this_map.Extent() == 0:
+        if this_map.Size() == 0:
             return []
 
         other_map = TopTools_IndexedMapOfShape()
         topexp.MapShapes(other.object, Shape.FACE, other_map)
-        if other_map.Extent() == 0:
+        if other_map.Size() == 0:
             return []
 
         faces = []
